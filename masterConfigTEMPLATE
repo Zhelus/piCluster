@@ -1,0 +1,43 @@
+#example awk
+#FILE=$(awk '/#beginFILEconfig/{flag=1; next} /#endFILEconfig/{flag=0} flag' ~/masterConfig)
+#for security, the masterConfig file has been designed outside of the github repository from the home folder
+
+
+#beginFWconfig
+
+#endFWconfig
+
+
+
+#beginSSHconfig
+
+#endSSHconfig
+
+
+
+
+#beginNFSconfig
+
+#endNFSconfig
+
+
+
+
+#beginHOSTSconfig
+
+#endHOSTSconfig
+
+
+
+
+
+#beginSSSDfile
+
+#endSSSDconfig
+
+
+
+
+#beginHAPROXYconfig
+
+#endHAPROXYconfig

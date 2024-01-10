@@ -1,1 +1,92 @@
 This repo has everything you need to set up a piCluster from scratch.
+
+#Setup Notes
+#hot tip (single) > overwrites target file while (double) >> appends to target file
+
+A breakdown of the structure of commands used in this scripting:
+	Ex1: echo $password | sudo -S timedatectl set-timezone America/Chicago
+		> echo "password" outputs the password to stdout, which is then piped (|) to sudo -S, allowing sudo to read the password from the standard input.
+			
+
+	Ex2.1: echo $password | sshpass -p $password ssh $i sudo -S timedatectl set-timezone America/Chicago
+		> echo is used to pipe the password to sudo as above, this time we have added sshpass to the command to perform bash a command on the target machine "i"
+		> the string "sshpass -p $password ssh $i" provides both the process(sshpass), password(for ssh), and target(host) for the command "sudo -S timedatectl set-timezone America/Chicago"
+		> However we still need "echo $password" and "-S" to elevate the sudo command on the target machine as without it the user would be prompted for a password.
+
+	Ex2.2: sshpass -p $password ssh $i sudo -S mkdir -p /tmp/innocent2 <<< $password
+		> similar to above but this time the password is piped in at the end 
+
+	The goal in initializing the cluster is to create a service account that can operate from the head node without the need of password for sudo or ssh.
+	This will be observed while we move through the code.
+
+
+	Ex3.1: echo $password | sudo -S bash -c "echo \"$serviceAccount ALL=(ALL) NOPASSWD:ALL\" > /etc/sudoers.d/$ServiceAccount"
+		> This is a bit more comlicated, but it will be used to enable NOPASSWD both locally and remotely
+		> in this script we use the fundementals of the prior examples but we are running everything inside an elevated bash shell, so that we are allowed to echo into a root owned directory, and create a root owned file
+
+	Ex3.2.0: echo $password | sshpass -p $password ssh $i "sudo bash -c 'echo \"$serviceAccount ALL=(ALL) NOPASSWD:ALL\" > /etc/sudoers.d/$ServiceAccount'"
+		> this is the above script with sshpass added a few things to note are double and single quotations behave differently
+		> double quotes allow for interpritation of characters such as the $ that announce declared variables
+		> single quotes declare the string as a literal and should not be interpreted by the compiler
+
+
+	Ex3.2.1: sudo -S bash -c "echo \"$serviceAccount ALL=(ALL) NOPASSWD:ALL\" >> /etc/sudoers.d/piClusterServiceAccount"
+		> this works locally
+
+	Ex3.2.2: echo $password | sshpass -p $password ssh $i "sudo bash -c 'echo \"$serviceAccount ALL=(ALL) NOPASSWD:ALL\" > /etc/sudoers.d/piClusterServiceAccount'"
+		> this parenthatezation does work remotely --- before passing the string to ssh, bash processes any special characters in  this case the variable serviceAccount is looked up locally, replaced with the correct value and then sent to the remote machine.
+
+
+	Ex3.2.3: echo $password | sshpass -p $password ssh $i 'sudo bash -c "echo \"$serviceAccount ALL=(ALL) NOPASSWD:ALL\" > /etc/sudoers.d/piClusterServiceAccount"'
+		> this parenthatezation does NOT work remotely --- send the ssh string exactly as it is over to the remote machine, so the remote machine would process and interperit the variable serviceAccount locally because "echo.... " is in double quotes, in this case the variable does not exit on the remote machine so it is empty
+		and cause this to be written without the user account: ALL=(ALL) NOPASSWD:ALL
+
+
+Once NOPASSWD is set up to allow passwordless use of sudo for our serviceAccount we will begin working on setting up passwordless ssh using RSA keys. This is done with the following three lines of code(hopefully)
+	ssh-keygen -q -t rsa -N '' -f ~/.ssh/id_rsa <<< "y" > /dev/null 2>&1
+	ssh-add ~/.ssh/id_rsa
+    sshpass -p "$password" ssh-copy-id $i
+    sudo systemctl restart sshd
+#
+#In testing, the name given to the users home folder had to be lowercase or autofs struggled to correctly map. My ldapsearch script makes all usernames lowercase before creating their home directory.
+#
+
+>> Ubuntu for Raspberry Pi is installed on th cluster and the ubuntu user has a unified password
+
+Perform process to download piCluster git-hub repository
+#should that be included in #2?
+
+
+>> Run headNodeSetup.sh
+	>installs needed packages to begin script installs
+>> Run headNodeHAProxysetup.sh
+	> uses config file haproxy.cfg	
+
+>> Run clusterServiceAccountSetup.sh
+	>prompts user for service account creation and pushes it to all nodes
+>> Run clusterRSAandSSHkeySetup.sh
+	>moves keys around to enable passwordless management	
+
+
+#THIS HAS TO BE RUN AS SERVICE ACCOUNT
+>> Run nfsSharesSetup.sh
+	>script that quieries AD and sets up NFS directory shares
+
+>> Run nfsClientSetup.sh
+	>enables autofs on clients and sets the correct mounting points
+
+
+>> Run microLCDsetupPart1.sh
+>> Run microLCDsetupPart2.sh
+	> uses config file microLCDService
+
+
+
+#to update nfs after modifying shares:
+sudo exportfs -a
+
+
+still need to create a script to setup github on headnode to download repository
+
+
+

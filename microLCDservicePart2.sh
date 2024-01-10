@@ -1,7 +1,6 @@
 #!/bin/bash
-
-file="./hosts"
-hosts=$(cat "$file")
+#'done &' allows for all iterations of the for loop to run simultaneously by running them as a background process 
+hosts=$(awk '/#beginHOSTSconfig/{flag=1; next} /#endHOSTSconfig/{flag=0} flag' ~/masterConfig)
 lcd=$(cat microLCDservice)
 
 for i in $hosts
@@ -16,4 +15,4 @@ do
 	ssh $i sudo systemctl daemon-reload
 	ssh $i sudo systemctl enable microlcd.service
 	ssh $i sudo reboot
-done
+done &

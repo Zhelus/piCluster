@@ -2,13 +2,13 @@
 #!/bin/bash
 #this script should be run as the cluster service account
 #This allows for direct ssh to any node in the cluster without the use of the sshpass protocol
-
+#This script also set up SSSD for LDAP authentication
 #-s suppress user input (don't show typed password) -p print to terminal what is in parethesis
 #read -p "Enter management account:" acct
-read -s -p "Enter account password:" password
+read -s -p "Enter service account password:" password
 
-file="./hosts"
-hosts=$(cat "$file")
+hosts=$(awk '/#beginHOSTSconfig/{flag=1; next} /#endHOSTSconfig/{flag=0} flag' ~/masterConfig)
+sssdConf=$(awk '/#beginSSSDconfig/{flag=1; next} /#endSSSDconfig/{flag=0} flag' ~/masterConfig)
 
 #ssh-keygen -q -t rsa -N '' -f ~/.ssh/id_rsa <<<y >/dev/null 2>&1
 ssh-keygen -q -t rsa -N '' -f ~/.ssh/id_rsa <<< "y" > /dev/null 2>&1
@@ -24,7 +24,7 @@ cp ~/.ssh/id_rsa.pub ~/.ssh/authorized_keys
 for i in $hosts
 do
     #should this be known_hosts2?
-    ssh-keyscan -t ed25519 $i >> ~/.ssh/known_hosts
+    ssh-keyscan -t ed25519 $i >> ~/.ssh/known_hosts2
 #this allows for remote access without password using RSA key pairs
     echo "Copying authorized_keys to node $i"
 #new code
@@ -40,8 +40,6 @@ done
 #clean up original device ssh host keys
 rm ~/.ssh/known_hosts2
 
-#this is needed for the advanced commented code below
-sssdConf=$(sudo cat /etc/sssd/sssd.conf)
 
 for i in $hosts
 do
