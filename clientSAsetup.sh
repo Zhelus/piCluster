@@ -5,9 +5,8 @@
 
 #Since 90-cloud-init-users exists ubuntu is passwordless by default
 #open hosts file
-file="./hosts"
-hosts=$(cat "$file")
 
+hosts=$(awk '/#beginHOSTSconfig/{flag=1; next} /#endHOSTSconfig/{flag=0} flag' ~/masterConfig)
 
 #install the proper sshpass
 if [ -f /etc/lsb-release ]

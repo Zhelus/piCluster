@@ -1,8 +1,7 @@
 #!/bin/bash
 
-file="./hosts"
-hosts=$(cat "$file")
-nfs=$(cat nfsFQDN)
+hosts=$(awk '/#beginHOSTSconfig/{flag=1; next} /#endHOSTSconfig/{flag=0} flag' ~/masterConfig)
+nfs=$(awk '/#beginNFSconfig/{flag=1; next} /#endNFSconfig/{flag=0} flag' ~/masterConfig)
 
 for i in $hosts
 do
