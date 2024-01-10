@@ -1,0 +1,11 @@
+[Unit]
+Description=Enable Front Panel microLCD
+#Run this service after the multi-user.target process aka prompt to log in but before log in
+After=multi-user.target
+
+[Service]
+ExecStart=/etc/opt/microLCD/display
+
+#install ~ or run along side this application
+[Install]
+WantedBy=multi-user.target
