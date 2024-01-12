@@ -51,7 +51,7 @@ Once NOPASSWD is set up to allow passwordless use of sudo for our serviceAccount
 #In testing, the name given to the users home folder had to be lowercase or autofs struggled to correctly map. My ldapsearch script makes all usernames lowercase before creating their home directory.
 #
 
->> Ubuntu for Raspberry Pi is installed on th cluster and the ubuntu user has a unified password
+>> Ubuntu for Raspberry Pi is installed on the cluster and the ubuntu user has a unified password
 
 Perform process to download piCluster git-hub repository
 #should that be included in #2?
