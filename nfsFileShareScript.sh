@@ -15,6 +15,7 @@ for i in $members
 do
 	sudo mkdir /home/$i
 	sudo chown -R $i /home/$i
-	echo "/home/$i *(rw,sync,subtree_check)" | sudo tee -a /etc/exports	
+	echo "/home/$i *(rw,sync,subtree_check)" | sudo tee -a /etc/exports
+ 	sudo exportfs -a
 done
 rm groupMembership
