@@ -7,8 +7,8 @@
 #read -p "Enter management account:" acct
 read -s -p "Enter service account password:" password
 
-hosts=$(awk '/#beginHOSTSconfig/{flag=1; next} /#endHOSTSconfig/{flag=0} flag' ~/masterConfig)
-sssdConf=$(awk '/#beginSSSDconfig/{flag=1; next} /#endSSSDconfig/{flag=0} flag' ~/masterConfig)
+hosts=$(awk '/#beginHOSTSconfig/{flag=1; next} /#endHOSTSconfig/{flag=0} flag' /etc/opt/piLab/masterConfig)
+sssdConf=$(awk '/#beginSSSDconfig/{flag=1; next} /#endSSSDconfig/{flag=0} flag' /etc/opt/piLab/masterConfig)
 
 #ssh-keygen -q -t rsa -N '' -f ~/.ssh/id_rsa <<<y >/dev/null 2>&1
 ssh-keygen -q -t rsa -N '' -f ~/.ssh/id_rsa <<< "y" > /dev/null 2>&1

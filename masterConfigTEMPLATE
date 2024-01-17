@@ -4,27 +4,23 @@
 
 
 #beginFWconfig
-
 #endFWconfig
 
 
 
 #beginSSHconfig
-
 #endSSHconfig
 
 
 
 
 #beginNFSconfig
-
 #endNFSconfig
 
 
 
 
 #beginHOSTSconfig
-
 #endHOSTSconfig
 
 
@@ -32,12 +28,16 @@
 
 
 #beginSSSDfile
-
 #endSSSDconfig
 
 
 
 
 #beginHAPROXYconfig
-
 #endHAPROXYconfig
+
+
+
+
+#beginBANNERconfig
+#endBANNERconfig

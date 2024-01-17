@@ -17,4 +17,6 @@ do
 	sudo chown -R $i /home/$i
 	echo "/home/$i *(rw,sync,subtree_check)" | sudo tee -a /etc/exports	
 done
+
+sudo exportfs -a
 rm groupMembership

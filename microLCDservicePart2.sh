@@ -1,6 +1,6 @@
 #!/bin/bash
 #'done &' allows for all iterations of the for loop to run simultaneously by running them as a background process 
-hosts=$(awk '/#beginHOSTSconfig/{flag=1; next} /#endHOSTSconfig/{flag=0} flag' ~/masterConfig)
+hosts=$(awk '/#beginHOSTSconfig/{flag=1; next} /#endHOSTSconfig/{flag=0} flag' /etc/opt/piLab/masterConfig)
 lcd=$(cat microLCDservice)
 
 for i in $hosts

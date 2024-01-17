@@ -6,7 +6,7 @@
 #Since 90-cloud-init-users exists ubuntu is passwordless by default
 #open hosts file
 
-hosts=$(awk '/#beginHOSTSconfig/{flag=1; next} /#endHOSTSconfig/{flag=0} flag' ~/masterConfig)
+hosts=$(awk '/#beginHOSTSconfig/{flag=1; next} /#endHOSTSconfig/{flag=0} flag' /etc/opt/piLab/masterConfig)
 
 #install the proper sshpass
 if [ -f /etc/lsb-release ]
@@ -52,6 +52,7 @@ sudo -S useradd -m -d /home/$serviceAccount $serviceAccount 2>/dev/null
 sudo -S chpasswd < <(echo "$serviceAccount:$serviceAccountPassword")
 sudo -S chsh -s /bin/bash $serviceAccount
 sudo -S bash -c "echo \"$serviceAccount ALL=(ALL) NOPASSWD:ALL\" > /etc/sudoers.d/$serviceAccount"
+
 #update time zone on local machine   
 echo $password | sudo -S timedatectl set-timezone America/Chicago
 

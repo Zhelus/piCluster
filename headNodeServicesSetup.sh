@@ -1,9 +1,9 @@
 #!/bin/bash
 #HAProxysetup.sh
 
-fw=$(awk '/#beginFWconfig/{flag=1; next} /#endFWconfig/{flag=0} flag' ~/masterConfig)
-haproxy=$(awk '/#beginHAPROXYconfig/{flag=1; next} /#endHAPROXYconfig/{flag=0} flag' ~/masterConfig)
-sshAdminPort=$(awk '/#beginSSHconfig/{flag=1; next} /#endSSHconfig/{flag=0} flag' ~/masterConfig)
+fw=$(awk '/#beginFWconfig/{flag=1; next} /#endFWconfig/{flag=0} flag' /etc/opt/piLab/masterConfig)
+haproxy=$(awk '/#beginHAPROXYconfig/{flag=1; next} /#endHAPROXYconfig/{flag=0} flag' /etc/opt/piLab/masterConfig)
+sshAdminPort=$(awk '/#beginSSHconfig/{flag=1; next} /#endSSHconfig/{flag=0} flag' /etc/opt/piLab/masterConfig)
 
 sudo ufw allow $fw
 sudo ufw enable
