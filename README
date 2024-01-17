@@ -34,7 +34,7 @@ A breakdown of the structure of commands used in this scripting:
 		> this works locally
 
 	Ex3.2.2: echo $password | sshpass -p $password ssh $i "sudo bash -c 'echo \"$serviceAccount ALL=(ALL) NOPASSWD:ALL\" > /etc/sudoers.d/piClusterServiceAccount'"
-		> this parenthatezation does work remotely --- before passing the string to ssh, bash processes any special characters in  this case the variable serviceAccount is looked up locally, replaced with the correct value and then sent to the remote machine.
+		> this parenthatezation does work remotely --- before passing the string to ssh, bash processes any special characters in this case the variable serviceAccount is looked up locally, replaced with the correct value and then sent to the remote machine.
 
 
 	Ex3.2.3: echo $password | sshpass -p $password ssh $i 'sudo bash -c "echo \"$serviceAccount ALL=(ALL) NOPASSWD:ALL\" > /etc/sudoers.d/piClusterServiceAccount"'
@@ -53,40 +53,32 @@ Once NOPASSWD is set up to allow passwordless use of sudo for our serviceAccount
 
 >> Ubuntu for Raspberry Pi is installed on the cluster and the ubuntu user has a unified password
 
-Perform process to download piCluster git-hub repository
-#should that be included in #2?
 
-
->> Run headNodeSetup.sh
+>> Run headNodeInitialization.sh
 	>installs needed packages to begin script installs
->> Run headNodeHAProxysetup.sh
-	> uses config file haproxy.cfg	
-
->> Run clusterServiceAccountSetup.sh
+>> Run headNodeServicesSetup.sh
+	>enables ufw rules, installs HAProxy and NFS server
+>> Run clientSAsetup.sh
 	>prompts user for service account creation and pushes it to all nodes
->> Run clusterRSAandSSHkeySetup.sh
-	>moves keys around to enable passwordless management	
-
-
-#THIS HAS TO BE RUN AS SERVICE ACCOUNT
 >> Run nfsSharesSetup.sh
-	>script that quieries AD and sets up NFS directory shares
+	>script that queries AD and sets up NFS directory shares
 
->> Run nfsClientSetup.sh
+
+#THE FOLLOWING HAS TO BE RUN AS SERVICE ACCOUNT
+>> Run clientSecureTokens.sh
+	>moves keys around to enable password less management	
+>> Run clientAutofsSetup.sh
 	>enables autofs on clients and sets the correct mounting points
 
+#optional if you are adding a customer welcome banner
+>> Run clientLoginSetup.sh
+	>pulls additional banner from masterConfig disables all but the ubuntu 00-header banner
 
+#optional if your cluster is installed in the UCTRONICS Pi Rack Pro RM0004
 >> Run microLCDsetupPart1.sh
 >> Run microLCDsetupPart2.sh
 	> uses config file microLCDService
 
-
-
-#to update nfs after modifying shares:
-sudo exportfs -a
-
-
-still need to create a script to setup github on headnode to download repository
 
 
 
