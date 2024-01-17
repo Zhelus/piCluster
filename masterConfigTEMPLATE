@@ -41,3 +41,7 @@
 
 #beginBANNERconfig
 #endBANNERconfig
+
+
+##beginPROMPTconfig
+#endPROMPTconfig
