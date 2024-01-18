@@ -1,6 +1,6 @@
 #!/bin/bash
 
-hosts=$(awk '/#beginHOSTSconfig/{flag=1; next} /#endHOSTSconfig/{flag=0} flag' /etc/opt/piLab/masterConfig)
+hosts=$(sudo awk '/#beginHOSTSconfig/{flag=1; next} /#endHOSTSconfig/{flag=0} flag' /etc/opt/piLab/masterConfig)
 
 
 read -p "Input the account you would like to lock accross the cluster: " USER

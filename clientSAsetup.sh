@@ -6,7 +6,7 @@
 #Since 90-cloud-init-users exists ubuntu is passwordless by default
 #open hosts file
 
-hosts=$(awk '/#beginHOSTSconfig/{flag=1; next} /#endHOSTSconfig/{flag=0} flag' /etc/opt/piLab/masterConfig)
+hosts=$(sudo awk '/#beginHOSTSconfig/{flag=1; next} /#endHOSTSconfig/{flag=0} flag' /etc/opt/piLab/masterConfig)
 
 #install the proper sshpass
 if [ -f /etc/lsb-release ]

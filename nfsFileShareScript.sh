@@ -6,7 +6,7 @@ binddnAcct=$(sudo cat /etc/sssd/binddnAcct)
 binddnPW=$(sudo cat /etc/sssd/binddnPW)
 LDAPserver=$(sudo cat /etc/sssd/LDAPserver)
 #SG=$(sudo cat /etc/sssd/securityGroup)
-SG=$(awk '/#beginSGconfig/{flag=1; next} /#endSGconfig/{flag=0} flag' /etc/opt/piLab/masterConfig)
+SG=$(sudo awk '/#beginSGconfig/{flag=1; next} /#endSGconfig/{flag=0} flag' /etc/opt/piLab/masterConfig)
 
 ldapsearch -H "$LDAPserver" -x -D "$binddnAcct" -w "$binddnPW" -b "$LDAPsearchBase" "(cn=$SG)" | grep member: | awk -F'CN=' '{print $2}' | awk -F',' '{print $1}' | awk '{print tolower($0)}' > groupMembership
 

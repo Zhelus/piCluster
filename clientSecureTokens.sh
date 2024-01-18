@@ -7,8 +7,8 @@
 #read -p "Enter management account:" acct
 read -s -p "Enter service account password:" password
 
-hosts=$(awk '/#beginHOSTSconfig/{flag=1; next} /#endHOSTSconfig/{flag=0} flag' /etc/opt/piLab/masterConfig)
-sssdConf=$(awk '/#beginSSSDconfig/{flag=1; next} /#endSSSDconfig/{flag=0} flag' /etc/opt/piLab/masterConfig)
+hosts=$(sudo awk '/#beginHOSTSconfig/{flag=1; next} /#endHOSTSconfig/{flag=0} flag' /etc/opt/piLab/masterConfig)
+sssdConf=$(sudo awk '/#beginSSSDconfig/{flag=1; next} /#endSSSDconfig/{flag=0} flag' /etc/opt/piLab/masterConfig)
 
 #ssh-keygen -q -t rsa -N '' -f ~/.ssh/id_rsa <<<y >/dev/null 2>&1
 ssh-keygen -q -t rsa -N '' -f ~/.ssh/id_rsa <<< "y" > /dev/null 2>&1
@@ -59,15 +59,5 @@ do
     ssh $i sudo chmod 600 /etc/sssd/sssd.conf    
     ssh $i sudo systemctl restart sssd.service
 done
-
-
-#This code is commented out until the final implementation 
-#file="./hosts"
-#hosts=$(cat "$file")
-#for i in $hosts
-#do
-#lock the service account and prevent direct login
-#    ssh $acct@$i sudo usermod -L $USER
-#done
 
 
