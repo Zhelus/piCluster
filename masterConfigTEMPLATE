@@ -3,6 +3,13 @@
 #for security, the masterConfig file has been designed outside of the github repository from the home folder
 
 
+
+#beginHOSTSconfig
+#endHOSTSconfig
+
+
+
+
 #beginFWconfig
 #endFWconfig
 
@@ -16,13 +23,6 @@
 
 #beginNFSconfig
 #endNFSconfig
-
-
-
-
-#beginHOSTSconfig
-#endHOSTSconfig
-
 
 
 
