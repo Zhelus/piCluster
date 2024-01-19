@@ -2,6 +2,8 @@
 #!/bin/bash
 sudo apt update
 sudo apt upgrade
+sudo apt install ldap-utils
+
 chmod 666 *
 chmod 777 *.sh
 

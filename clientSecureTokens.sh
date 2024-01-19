@@ -24,21 +24,22 @@ cp ~/.ssh/id_rsa.pub ~/.ssh/authorized_keys
 for i in $hosts
 do
     #should this be known_hosts2?
-    ssh-keyscan -t ed25519 $i >> ~/.ssh/known_hosts2
+    ssh-keyscan -t ed25519 $i >> ~/.ssh/known_hosts
 #this allows for remote access without password using RSA key pairs
     echo "Copying authorized_keys to node $i"
 #new code
     sshpass -p "$password" ssh-copy-id $i
-    sudo systemctl restart sshd    
+#    sudo systemctl restart sshd    
 #remote sshHostKey Code (new)
 #this fixes the man in the middle issue by making all of the nodes have the same ssh key, this may need to be expanded to other key encryption types but works with tested systems
     echo "Copying ed25519 keys to node $i"
     ssh $i "sudo bash -c 'echo \"$ed25519\" > /etc/ssh/ssh_host_ed25519_key'" #ensure that permissions are 600
     ssh $i "sudo bash -c 'echo \"$ed25519pub\" > /etc/ssh/ssh_host_ed25519_key.pub'" #ensure that permissions are 644
+	echo "done copying new keys"
 done
 
 #clean up original device ssh host keys
-rm ~/.ssh/known_hosts2
+rm ~/.ssh/known_hosts
 
 
 for i in $hosts

@@ -1,5 +1,4 @@
 #!/bin/bash
-#'done &' allows for all iterations of the for loop to run simultaneously by running them as a background process 
 hosts=$(sudo awk '/#beginHOSTSconfig/{flag=1; next} /#endHOSTSconfig/{flag=0} flag' /etc/opt/piLab/masterConfig)
 lcd=$(cat microLCDservice)
 
@@ -15,4 +14,4 @@ do
 	ssh $i sudo systemctl daemon-reload
 	ssh $i sudo systemctl enable microlcd.service
 	ssh $i sudo reboot
-done &
+done 

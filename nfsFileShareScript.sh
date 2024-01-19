@@ -14,10 +14,14 @@ members=$(cat "groupMembership")
 echo $SG
 for i in $members
 do
-	sudo mkdir /home/$i
-	sudo chown -R $i /home/$i
-	echo "/home/$i *(rw,sync,subtree_check)" | sudo tee -a /etc/exports
- 	sudo exportfs -a
+	if [ -d "/home/$i" ]; then
+   		echo "$i NFS resources already exist. Skipping $i."
+	else
+		echo "Creating NFS resources for $i"	
+		sudo mkdir /home/$i
+		sudo chown -R $i /home/$i >/dev/null
+		echo "/home/$i *(rw,sync,subtree_check)" | sudo tee -a /etc/exports >/dev/null
+	fi
 done
 
 sudo exportfs -a

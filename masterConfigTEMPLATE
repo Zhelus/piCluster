@@ -5,23 +5,31 @@
 
 
 #beginHOSTSconfig
+host1
+host2
+hostn
 #endHOSTSconfig
 
 
 
 
 #beginFWconfig
+port1
+port2
+portn
 #endFWconfig
 
 
 
 #beginSSHconfig
+sshPort
 #endSSHconfig
 
 
 
 
 #beginNFSconfig
+fileserver address
 #endNFSconfig
 
 
@@ -40,12 +48,15 @@
 
 
 #beginBANNERconfig
+Custom welcome banner
 #endBANNERconfig
 
 
-##beginPROMPTconfig
+#beginPROMPTconfig
+prompt for all users
 #endPROMPTconfig
 
 
 #beginSGconfig
+LDAP group used for directory creation and nfs export
 #endSGconfig

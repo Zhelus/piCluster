@@ -52,7 +52,8 @@ Once NOPASSWD is set up to allow passwordless use of sudo for our serviceAccount
 #
 
 >> Ubuntu for Raspberry Pi is installed on the cluster and the ubuntu user has a unified password
-
+>> Run clientUbuntuPASSWDupdate.sh
+	>uses expect to simulate first login of ubuntu user and change password for entire cluster
 
 >> Run headNodeInitialization.sh
 	>installs needed packages to begin script installs
