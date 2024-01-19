@@ -11,7 +11,8 @@ do
     ssh $i sudo chmod -x /etc/update-motd.d/*
     echo "$banner" | ssh $i 'sudo bash -c "cat > /etc/update-motd.d/00-custom-header"'	
     ssh $i sudo chmod +x /etc/update-motd.d/00-custom-header
-
     echo "$prompt" | ssh $i 'sudo bash -c "cat >> /etc/bash.bashrc"'	
+    echo "" | ssh $i 'sudo bash -c "cat > /etc/legal"'	
+    
 done
 
